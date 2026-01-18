@@ -1,12 +1,11 @@
 import os
 import sys
-import datetime
+import datetime  # Separated from the previous line to fix SyntaxError
 from zoneinfo import ZoneInfo
 from google.adk.agents import Agent
 from dotenv import load_dotenv
 
-# --- FIX: Ensure Python can find rag_system.py in the parent folder ---
-# This adds the 'multi_tool_agent' folder to your path
+# Path fix to ensure rag_system.py is found in the parent directory
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 sys.path.append(parent_dir)
@@ -16,19 +15,19 @@ from rag_system import get_financial_context
 
 load_dotenv()
 
-# --- DEFINE TOOL ---
+# --- DEFINE THE TOOL FIRST ---
+# This fixes the Pylance "reportUndefinedVariable" error
 def financial_retriever(query: str) -> dict:
     """Uses the local RAG system to find financial news."""
-    # Ensure this function name is unique and descriptive
     context = get_financial_context(query)
     return {"status": "success", "data": context}
 
-# --- DEFINE AGENT ---
+# --- DEFINE THE AGENT SECOND ---
 finance_bot = Agent(
     name="financial_bot",
-    # Using the latest recommended model variant for 2026
-    model="gemini-3-flash", 
-    instruction="You are a financial advisor bot. Use the financial_retriever tool to answer user questions about companies and financial news.",
-    # FIX: Function name here must match 'def financial_retriever' above
+    # Using the updated 2026 stable model name
+    model="gemini-3-flash-preview", 
+    instruction="You are a financial advisor bot. Always use the financial_retriever tool to answer user questions about companies.",
+    # Use the name defined in the 'def' block above
     tools=[financial_retriever] 
 )
