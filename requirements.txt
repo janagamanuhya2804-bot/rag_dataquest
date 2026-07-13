@@ -1,0 +1,16 @@
+fastapi
+uvicorn
+sqlalchemy
+pandas
+numpy
+langchain
+chromadb
+sentence-transformers
+openai-whisper
+easyocr
+plotly
+streamlit
+httpx
+pydantic
+python-multipart
+python-dotenv
